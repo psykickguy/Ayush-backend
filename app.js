@@ -6,6 +6,7 @@ import branchRoutes from "./routes/branchRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import appointmentRoutes from "./routes/appointmentRoutes.js";
 import analyticsRoutes from "./routes/analyticsRoutes.js";
+import settingsRoutes from "./routes/settingsRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -17,7 +18,7 @@ app.use("/branches", branchRoutes);
 app.use("/appointments", appointmentRoutes);
 app.use("/users", userRoutes);
 app.use("/analytics", analyticsRoutes);
-
+app.use('/api/settings', settingsRoutes);
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
