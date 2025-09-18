@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import branchRoutes from "./routes/branchRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import appointmentRoutes from "./routes/appointmentRoutes.js";
+import analyticsRoutes from "./routes/analyticsRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use("/branches", branchRoutes);
 app.use("/appointments", appointmentRoutes);
 app.use("/users", userRoutes);
+app.use("/analytics", analyticsRoutes);
 
 const connectDB = async () => {
   try {
