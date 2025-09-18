@@ -1,14 +1,26 @@
 import express from "express";
+import "dotenv/config";
+import cors from "cors";
+import mongoose from "mongoose";
 
 const app = express();
+const PORT = process.env.PORT || 8080;
 
-// Simple route
-app.get("/", (req, res) => {
-  res.send("Server is running on port 8080 🚀");
-});
+app.use(cors());
+app.use(express.json());
 
-// Start server
-const PORT = 8080;
-app.listen(PORT, () => {
-  console.log(`Server listening at http://localhost:${PORT}`);
-});
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+    console.log("✅ MongoDB connected successfully");
+
+    app.listen(PORT, () => {
+      console.log(`🚀 Server running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("❌ MongoDB connection failed:", error);
+    process.exit(1); // stop app if DB fails
+  }
+};
+
+connectDB();
