@@ -9,3 +9,4 @@ router.put("/:id", updateAppointment);
 router.delete("/:id", deleteAppointment);
 
 export default router;
+  

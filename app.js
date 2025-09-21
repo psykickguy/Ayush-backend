@@ -8,6 +8,7 @@ import appointmentRoutes from "./routes/appointmentRoutes.js";
 import analyticsRoutes from "./routes/analyticsRoutes.js";
 import settingsRoutes from "./routes/settingsRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -20,6 +21,8 @@ app.use("/appointments", appointmentRoutes);
 app.use("/users", userRoutes);
 app.use("/analytics", analyticsRoutes);
 app.use('/api/settings', settingsRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/dashboard', dashboardRoutes);
 
 const connectDB = async () => {
   try {
