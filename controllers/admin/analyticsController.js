@@ -1,5 +1,5 @@
-import Patient from "../models/Patient.js";
-import Payment from "../models/Payment.js";
+import Patient from "../../models/Patient.js";
+import Payment from "../../models/Payment.js";
 import mongoose from "mongoose";
 
 // GET /api/analytics

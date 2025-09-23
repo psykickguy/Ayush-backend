@@ -1,5 +1,10 @@
 import express from "express";
-import { getAppointments, addAppointment, updateAppointment, deleteAppointment } from "../controllers/appointmentController.js";
+import {
+  getAppointments,
+  addAppointment,
+  updateAppointment,
+  deleteAppointment,
+} from "../../controllers/admin/appointmentController.js";
 
 const router = express.Router();
 
@@ -9,4 +14,3 @@ router.put("/:id", updateAppointment);
 router.delete("/:id", deleteAppointment);
 
 export default router;
-  

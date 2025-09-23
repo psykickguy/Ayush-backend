@@ -1,7 +1,7 @@
 import os from "os";
-import User from "../models/user.js";
-import Branch from "../models/Branch.js";
-import Appointment from "../models/Appointment.js"; // or Payment if you don’t have Appointment
+import User from "../../models/user.js";
+import Branch from "../../models/Branch.js";
+import Appointment from "../../models/Appointment.js"; // or Payment if you don’t have Appointment
 import mongoose from "mongoose";
 
 export const getDashboard = async (req, res) => {

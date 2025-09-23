@@ -1,4 +1,4 @@
-import Appointment from "../models/Appointment.js";
+import Appointment from "../../models/Appointment.js";
 
 // GET all appointments
 export const getAppointments = async (_req, res) => {
@@ -20,7 +20,11 @@ export const addAppointment = async (req, res) => {
 // PUT update appointment
 export const updateAppointment = async (req, res) => {
   try {
-    const updated = await Appointment.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updated = await Appointment.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
     res.json(updated);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -31,7 +35,8 @@ export const updateAppointment = async (req, res) => {
 export const deleteAppointment = async (req, res) => {
   try {
     const deleted = await Appointment.findByIdAndDelete(req.params.id);
-    if (!deleted) return res.status(404).json({ error: "Appointment not found" });
+    if (!deleted)
+      return res.status(404).json({ error: "Appointment not found" });
     res.json({ message: "Appointment deleted" });
   } catch (err) {
     res.status(400).json({ error: err.message });

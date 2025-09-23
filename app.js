@@ -2,13 +2,14 @@ import express from "express";
 import "dotenv/config";
 import cors from "cors";
 import mongoose from "mongoose";
-import branchRoutes from "./routes/branchRoutes.js";
-import userRoutes from "./routes/userRoutes.js";
-import appointmentRoutes from "./routes/appointmentRoutes.js";
-import analyticsRoutes from "./routes/analyticsRoutes.js";
-import settingsRoutes from "./routes/settingsRoutes.js";
-import dashboardRoutes from "./routes/dashboardRoutes.js";
-import authRoutes from "./routes/authRoutes.js";
+import branchRoutes from "./routes/admin/branchRoutes.js";
+import userRoutes from "./routes/user/userRoutes.js";
+import appointmentRoutes from "./routes/admin/appointmentRoutes.js";
+import analyticsRoutes from "./routes/admin/analyticsRoutes.js";
+import settingsRoutes from "./routes/admin/settingsRoutes.js";
+import dashboardRoutes from "./routes/admin/dashboardRoutes.js";
+import authRoutes from "./routes/user/authRoutes.js";
+import doctorRoutes from "./routes/doctor/doctorRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -23,6 +24,7 @@ app.use("/analytics", analyticsRoutes);
 app.use("/settings", settingsRoutes);
 app.use("/auth", authRoutes);
 app.use("/dashboard", dashboardRoutes);
+app.use("/doctor", doctorRoutes);
 
 const connectDB = async () => {
   try {
