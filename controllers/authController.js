@@ -26,7 +26,7 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, role } = req.body;
   try {
     const user = await User.findOne({ email });
     if (!user) {
@@ -36,9 +36,13 @@ export const login = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
+    if (user.role !== role) {
+      return res.status(400).json({ message: "Invalid credentials" });
+    }
     const payload = {
       user: {
         id: user.id,
+        role: user.role,
       },
     };
     jwt.sign(

@@ -20,9 +20,9 @@ app.use("/branches", branchRoutes);
 app.use("/appointments", appointmentRoutes);
 app.use("/users", userRoutes);
 app.use("/analytics", analyticsRoutes);
-app.use('/api/settings', settingsRoutes);
-app.use('/api/auth', authRoutes);
-app.use('/api/dashboard', dashboardRoutes);
+app.use("/settings", settingsRoutes);
+app.use("/auth", authRoutes);
+app.use("/dashboard", dashboardRoutes);
 
 const connectDB = async () => {
   try {

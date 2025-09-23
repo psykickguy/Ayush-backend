@@ -20,7 +20,9 @@ export const addUser = async (req, res) => {
 // Update user
 export const updateUser = async (req, res) => {
   try {
-    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
     res.json(updatedUser);
   } catch (err) {
     res.status(400).json({ error: err.message });
