@@ -4,7 +4,7 @@ import {
   getDoctorProfile,
   universalSearch,
   getNotifications,
-} from "../../controllers/doctor/doctorController.js";
+} from "../../controllers/doctor/navbarController.js";
 
 const router = express.Router();
 

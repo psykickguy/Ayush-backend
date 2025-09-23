@@ -9,7 +9,8 @@ import analyticsRoutes from "./routes/admin/analyticsRoutes.js";
 import settingsRoutes from "./routes/admin/settingsRoutes.js";
 import dashboardRoutes from "./routes/admin/dashboardRoutes.js";
 import authRoutes from "./routes/user/authRoutes.js";
-import doctorRoutes from "./routes/doctor/doctorRoutes.js";
+import navbarRoutes from "./routes/doctor/navbarRoutes.js";
+import doctorDashboardRoutes from "./routes/doctor/dashboardRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -17,14 +18,15 @@ const PORT = process.env.PORT || 8080;
 app.use(cors());
 app.use(express.json());
 
-app.use("/branches", branchRoutes);
-app.use("/appointments", appointmentRoutes);
-app.use("/users", userRoutes);
-app.use("/analytics", analyticsRoutes);
-app.use("/settings", settingsRoutes);
+app.use("/admin/branches", branchRoutes);
+app.use("/admin/appointments", appointmentRoutes);
+app.use("/admin/users", userRoutes);
+app.use("/admin/analytics", analyticsRoutes);
+app.use("/admin/settings", settingsRoutes);
 app.use("/auth", authRoutes);
-app.use("/dashboard", dashboardRoutes);
-app.use("/doctor", doctorRoutes);
+app.use("/admin/dashboard", dashboardRoutes);
+app.use("/doctor/navbar", navbarRoutes);
+app.use("/doctor/dashboard", dashboardRoutes);
 
 const connectDB = async () => {
   try {
