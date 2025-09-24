@@ -26,7 +26,7 @@ app.use("/admin/settings", settingsRoutes);
 app.use("/auth", authRoutes);
 app.use("/admin/dashboard", dashboardRoutes);
 app.use("/doctor/navbar", navbarRoutes);
-app.use("/doctor/dashboard", dashboardRoutes);
+app.use("/doctor/dashboard", doctorDashboardRoutes);
 
 const connectDB = async () => {
   try {
