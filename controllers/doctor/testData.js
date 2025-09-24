@@ -5,61 +5,59 @@ import Activity from "../../models/Activity.js";
 export const seedTestData = async (req, res) => {
   try {
     const doctorId = req.user.id;
-    const uniqueId = Date.now(); // Create a unique ID from the current timestamp
+    const uniqueId = Date.now();
 
-    // 1. Create Sample Patients (with unique emails)
-    const patient1 = await Patient.create({
-      name: "Sarah Johnson",
-      email: `sarah.j.${uniqueId}@example.com`, // Made email unique
-      doctor: doctorId,
-    });
-    const patient2 = await Patient.create({
-      name: "Michael Chen",
-      email: `michael.c.${uniqueId}@example.com`, // Made email unique
-      doctor: doctorId,
-    });
-
-    // Clean up old appointment and activity data to avoid duplicates from previous runs
+    // Clean up old data to avoid duplicates
+    await Patient.deleteMany({ doctor: doctorId });
     await Appointment.deleteMany({ doctor: doctorId });
     await Activity.deleteMany({ doctor: doctorId });
 
-    // 2. Create Sample Appointments
-    const today = new Date();
-    const lastWeek = new Date();
-    lastWeek.setDate(today.getDate() - 5);
+    // 1. Create Sample Patients with full details
+    const patient1 = await Patient.create({
+      doctor: doctorId,
+      name: "Sarah Johnson",
+      email: `sarah.j.${uniqueId}@example.com`,
+      age: 34,
+      gender: "Female",
+      phone: "+1 (555) 123-4567",
+      lastVisit: new Date("2025-09-15"),
+      condition: "Hypertension",
+      status: "Active",
+    });
 
+    const patient2 = await Patient.create({
+      doctor: doctorId,
+      name: "Michael Chen",
+      email: `michael.c.${uniqueId}@example.com`,
+      age: 45,
+      gender: "Male",
+      phone: "+1 (555) 234-5678",
+      lastVisit: new Date("2025-09-12"),
+      condition: "Diabetes Type 2",
+      status: "Active",
+    });
+
+    // 2. Create Sample Appointments
     await Appointment.create({
       doctor: doctorId,
       patient: patient1.id,
-      date: today,
+      date: new Date(),
       time: "09:00 AM",
       type: "Consultation",
     });
     await Appointment.create({
       doctor: doctorId,
       patient: patient2.id,
-      date: today,
+      date: new Date(),
       time: "10:30 AM",
       type: "Follow-up",
       status: "confirmed",
-    });
-    await Appointment.create({
-      doctor: doctorId,
-      patient: patient1.id,
-      date: lastWeek,
-      time: "02:00 PM",
-      type: "Check-up",
-      status: "completed",
     });
 
     // 3. Create Sample Activities
     await Activity.create({
       doctor: doctorId,
       message: "Completed consultation with Sarah Johnson",
-    });
-    await Activity.create({
-      doctor: doctorId,
-      message: "Lab results reviewed for Michael Chen",
     });
 
     res.status(201).json({ message: "Test data created successfully!" });

@@ -11,6 +11,9 @@ import dashboardRoutes from "./routes/admin/dashboardRoutes.js";
 import authRoutes from "./routes/user/authRoutes.js";
 import navbarRoutes from "./routes/doctor/navbarRoutes.js";
 import doctorDashboardRoutes from "./routes/doctor/dashboardRoutes.js";
+import patientRoutes from "./routes/doctor/patientRoutes.js";
+import { startScheduledJobs } from "./utils/scheduler.js";
+import appointmentDocRoutes from "./routes/doctor/appointmentRoutes.js";
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -27,11 +30,15 @@ app.use("/auth", authRoutes);
 app.use("/admin/dashboard", dashboardRoutes);
 app.use("/doctor/navbar", navbarRoutes);
 app.use("/doctor/dashboard", doctorDashboardRoutes);
+app.use("/doctor/patients", patientRoutes);
+app.use("/doctor/appointments", appointmentDocRoutes);
 
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI);
     console.log("✅ MongoDB connected successfully");
+
+    startScheduledJobs();
 
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
