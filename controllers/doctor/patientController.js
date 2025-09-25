@@ -44,8 +44,14 @@ export const getMyPatients = async (req, res) => {
 // @desc    Add a new patient
 // @route   POST /api/doctor/patients
 // @access  Private
+
 export const addPatient = async (req, res) => {
   try {
+    // Ensure the user is logged in (middleware should handle this, but it's a good check)
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ message: "Not authorized" });
+    }
+
     const patientData = { ...req.body, doctor: req.user.id };
 
     const patientExists = await Patient.findOne({ email: patientData.email });
@@ -56,9 +62,17 @@ export const addPatient = async (req, res) => {
     }
 
     const newPatient = await Patient.create(patientData);
+
+    // If for some reason the patient wasn't created, send an error
+    if (!newPatient) {
+        return res.status(500).json({ message: "Error creating patient in database" });
+    }
+
+    // Send a 201 Created status and the new patient object as a response
     res.status(201).json(newPatient);
+
   } catch (error) {
-    console.error(error);
+    console.error("Error in addPatient:", error);
     res
       .status(400)
       .json({ message: "Error creating patient", error: error.message });

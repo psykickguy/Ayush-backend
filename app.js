@@ -16,6 +16,7 @@ import { startScheduledJobs } from "./utils/scheduler.js";
 import appointmentDocRoutes from "./routes/doctor/appointmentRoutes.js";
 import treatmentPlanRoutes from "./routes/doctor/treatmentPlanRoutes.js";
 import enrollmentRoutes from "./routes/admin/enrollmentRoutes.js";
+import serviceRoutes from "./routes/admin/serviceRoutes.js";
 const app = express();
 const PORT = process.env.PORT || 8080;
 
@@ -30,6 +31,7 @@ app.use("/admin/analytics", analyticsRoutes);
 app.use("/admin/settings", settingsRoutes);
 app.use("/admin/enrollments", enrollmentRoutes);
 app.use("/admin/dashboard", dashboardRoutes);
+app.use("/api/admin/services", serviceRoutes);
 app.use("/doctor/navbar", navbarRoutes);
 app.use("/doctor/dashboard", doctorDashboardRoutes);
 app.use("/doctor/patients", patientRoutes);

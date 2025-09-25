@@ -21,6 +21,12 @@ const enrollmentSchema = new mongoose.Schema(
       enum: ["active", "completed", "cancelled"],
       default: "active",
     },
+    imageUrl: {
+      type: String,
+    },
+    cloudinaryId: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

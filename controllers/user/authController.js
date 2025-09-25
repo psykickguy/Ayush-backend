@@ -4,7 +4,8 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
-  const { name, email, password, role } = req.body;
+  // Destructure all required fields, including specialty
+  const { name, email, password, role, specialty } = req.body;
   try {
     let user = await User.findOne({ email });
     if (user) {
@@ -17,11 +18,14 @@ export const register = async (req, res) => {
       email,
       password: hashedPassword,
       role,
+      specialty, // Add specialty to the new user object
     });
     await user.save();
     res.status(201).json({ message: "User registered successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    // Also, it's helpful to see the actual error message in the console
+    console.error(error);
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
 
