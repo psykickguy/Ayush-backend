@@ -15,6 +15,8 @@ import patientRoutes from "./routes/doctor/patientRoutes.js";
 import { startScheduledJobs } from "./utils/scheduler.js";
 import appointmentDocRoutes from "./routes/doctor/appointmentRoutes.js";
 import treatmentPlanRoutes from "./routes/doctor/treatmentPlanRoutes.js";
+import sharingRoutes from "./routes/doctor/sharingRoutes.js";
+
 import enrollmentRoutes from "./routes/admin/enrollmentRoutes.js";
 import serviceRoutes from "./routes/admin/serviceRoutes.js";
 const app = express();
@@ -37,6 +39,7 @@ app.use("/doctor/dashboard", doctorDashboardRoutes);
 app.use("/doctor/patients", patientRoutes);
 app.use("/doctor/appointments", appointmentDocRoutes);
 app.use("/doctor/treatment-plans", treatmentPlanRoutes);
+app.use("/doctor/sharing", sharingRoutes);
 
 const connectDB = async () => {
   try {
