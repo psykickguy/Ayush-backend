@@ -33,7 +33,7 @@ app.use("/admin/analytics", analyticsRoutes);
 app.use("/admin/settings", settingsRoutes);
 app.use("/admin/enrollments", enrollmentRoutes);
 app.use("/admin/dashboard", dashboardRoutes);
-app.use("/api/admin/services", serviceRoutes);
+app.use("/admin/services", serviceRoutes);
 app.use("/doctor/navbar", navbarRoutes);
 app.use("/doctor/dashboard", doctorDashboardRoutes);
 app.use("/doctor/patients", patientRoutes);

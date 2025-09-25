@@ -3,36 +3,24 @@ import Appointment from "../../models/Appointment.js";
 import Activity from "../../models/Activity.js";
 import TreatmentPlan from "../../models/TreatmentPlan.js";
 import TreatmentTemplate from "../../models/TreatmentTemplate.js";
+import LabResult from "../../models/LabResult.js";
+import Prescription from "../../models/Prescription.js";
 
 export const seedTestData = async (req, res) => {
   try {
     const doctorId = req.user.id;
 
-    // --- Clean Up Old Data ---
+    // --- Clean Up ---
     await Patient.deleteMany({ doctor: doctorId });
     await Appointment.deleteMany({ doctor: doctorId });
     await Activity.deleteMany({ doctor: doctorId });
     await TreatmentPlan.deleteMany({ doctor: doctorId });
+    await LabResult.deleteMany({ doctor: doctorId });
+    await Prescription.deleteMany({ doctor: doctorId });
 
-    // --- Seed Templates (one-time setup, harmless to run again) ---
-    await TreatmentTemplate.deleteMany({}); // Clear all old templates
-    await TreatmentTemplate.create([
-      {
-        name: "Hypertension Protocol",
-        condition: "Hypertension",
-        defaultMedications: ["Lisinopril 10mg"],
-        defaultGoals: ["Monitor blood pressure daily"],
-      },
-      {
-        name: "Diabetes Management",
-        condition: "Diabetes Type 2",
-        defaultMedications: ["Metformin 500mg"],
-        defaultGoals: ["Check blood sugar twice daily", "Follow dietary plan"],
-      },
-    ]);
-
-    // --- Create Interconnected Data ---
+    // --- Create Data ---
     const uniqueId = Date.now();
+    const today = new Date();
 
     // 1. Create Patients
     const patient1 = await Patient.create({
@@ -43,6 +31,7 @@ export const seedTestData = async (req, res) => {
       gender: "Female",
       condition: "Hypertension",
       status: "Active",
+      allergies: ["Pollen"],
     });
     const patient2 = await Patient.create({
       doctor: doctorId,
@@ -54,11 +43,10 @@ export const seedTestData = async (req, res) => {
       status: "Active",
     });
 
-    // 2. Create Appointments
-    const today = new Date();
+    // 2. Create Appointments for both patients
     const nextWeek = new Date();
     nextWeek.setDate(today.getDate() + 7);
-    const futureAppointment = await Appointment.create({
+    const futureAppointment1 = await Appointment.create({
       doctor: doctorId,
       patient: patient1.id,
       date: nextWeek,
@@ -68,7 +56,41 @@ export const seedTestData = async (req, res) => {
       status: "confirmed",
     });
 
-    // 3. Create Treatment Plans linked to Patients and Appointments
+    // ADDED: An appointment for Michael Chen
+    const futureAppointment2 = new Date();
+    futureAppointment2.setDate(today.getDate() + 10);
+    const futureAppointmentForChen = await Appointment.create({
+      doctor: doctorId,
+      patient: patient2.id,
+      date: futureAppointment2,
+      time: "11:00 AM",
+      type: "Check-up",
+      duration: 45,
+      status: "confirmed",
+    });
+
+    // 3. Create Lab Results & Prescriptions
+    await LabResult.create({
+      patient: patient1.id,
+      doctor: doctorId,
+      testName: "Blood Pressure",
+      result: "130/85 mmHg",
+    });
+    await LabResult.create({
+      patient: patient2.id,
+      doctor: doctorId,
+      testName: "A1C Level",
+      result: "6.8%",
+    });
+    await Prescription.create({
+      patient: patient1.id,
+      doctor: doctorId,
+      medication: "Lisinopril 10mg",
+      dosage: "Once daily",
+      duration: "30 days",
+    });
+
+    // 4. Create Treatment Plans for both patients
     await TreatmentPlan.create({
       patient: patient1.id,
       doctor: doctorId,
@@ -77,14 +99,30 @@ export const seedTestData = async (req, res) => {
       endDate: new Date(new Date().setMonth(new Date().getMonth() + 6)),
       status: "active",
       progress: 65,
-      medications: ["Lisinopril 10mg", "Hydrochlorothiazide 25mg"],
-      nextAppointment: futureAppointment._id, // Link to the real appointment
-      goals: [{ description: "Lower average BP to 120/80", completed: false }],
+      medications: ["Lisinopril 10mg"],
+      nextAppointment: futureAppointment1._id,
+      goals: [{ description: "Lower average BP to 120/80" }],
+    });
+
+    // ADDED: A treatment plan for Michael Chen
+    await TreatmentPlan.create({
+      patient: patient2.id,
+      doctor: doctorId,
+      condition: "Diabetes Management",
+      startDate: new Date(),
+      endDate: new Date(new Date().setMonth(new Date().getMonth() + 12)),
+      status: "active",
+      progress: 40,
+      medications: ["Metformin 500mg"],
+      nextAppointment: futureAppointmentForChen._id,
+      goals: [{ description: "Maintain A1C level below 7.0%" }],
     });
 
     res
       .status(201)
-      .json({ message: "Comprehensive test data created successfully!" });
+      .json({
+        message: "Fully interconnected test data created successfully!",
+      });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to seed test data." });

@@ -1,9 +1,10 @@
 import twilio from "twilio";
 import otpGenerator from "otp-generator";
 import jwt from "jsonwebtoken";
-import RecordShare from "../models/RecordShare.js";
-import Patient from "../models/Patient.js";
-// ... import other models as needed
+import RecordShare from "../../models/RecordShare.js";
+import Patient from "../../models/Patient.js";
+import LabResult from "../../models/LabResult.js";
+import Prescription from "../../models/Prescription.js";
 
 const twilioClient = twilio(
   process.env.TWILIO_ACCOUNT_SID,
