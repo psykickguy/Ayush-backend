@@ -5,7 +5,8 @@ import {
   addPatient,
   getPatientById,
   updatePatient,
-  deletePatient, // Import the new delete function
+  deletePatient,
+  getPatientTimeline,
 } from "../../controllers/doctor/patientController.js";
 
 const router = express.Router();
@@ -21,5 +22,7 @@ router
   .get(getPatientById)
   .put(updatePatient)
   .delete(deletePatient); // Add the delete method
+
+router.route("/:id/timeline").get(getPatientTimeline);
 
 export default router;
