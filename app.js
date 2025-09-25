@@ -15,19 +15,20 @@ import patientRoutes from "./routes/doctor/patientRoutes.js";
 import { startScheduledJobs } from "./utils/scheduler.js";
 import appointmentDocRoutes from "./routes/doctor/appointmentRoutes.js";
 import treatmentPlanRoutes from "./routes/doctor/treatmentPlanRoutes.js";
-
+import enrollmentRoutes from "./routes/admin/enrollmentRoutes.js";
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 app.use(cors());
 app.use(express.json());
 
+app.use("/auth", authRoutes);
 app.use("/admin/branches", branchRoutes);
 app.use("/admin/appointments", appointmentRoutes);
 app.use("/admin/users", userRoutes);
 app.use("/admin/analytics", analyticsRoutes);
 app.use("/admin/settings", settingsRoutes);
-app.use("/auth", authRoutes);
+app.use("/admin/enrollments", enrollmentRoutes);
 app.use("/admin/dashboard", dashboardRoutes);
 app.use("/doctor/navbar", navbarRoutes);
 app.use("/doctor/dashboard", doctorDashboardRoutes);

@@ -6,6 +6,8 @@ const branchSchema = new mongoose.Schema(
     type: { type: String, enum: ["clinic", "hospital"], required: true },
     status: { type: String, enum: ["active", "inactive"], default: "active" },
     location: { type: String, required: true },
+    latitude: { type: Number },
+    longitude: { type: Number },
     address: { type: String },
     contactPerson: { type: String },
     contactNumber: { type: String },
