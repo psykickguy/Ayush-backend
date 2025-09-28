@@ -32,7 +32,12 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   const { email, password, role } = req.body;
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("+password");
+
+    // --- Add this line for debugging ---
+   // console.log("User object from DB:", user); 
+    // ------------------------------------
+
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
     }
@@ -54,7 +59,10 @@ export const login = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: "1h" },
       (err, token) => {
-        if (err) throw err;
+        if (err) {
+            console.error('JWT Signing Error:', err); 
+            return res.status(500).json({ message: "Error signing token" });
+        }
         res.json({
           token,
           user: {
@@ -67,6 +75,7 @@ export const login = async (req, res) => {
       }
     );
   } catch (error) {
-    res.status(500).json({ message: "Server error" });
+    console.error(error); 
+    res.status(500).json({ message: "Server error", error: error.message });
   }
 };
