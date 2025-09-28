@@ -56,7 +56,6 @@ export const seedTestData = async (req, res) => {
       status: "confirmed",
     });
 
-    // ADDED: An appointment for Michael Chen
     const futureAppointment2 = new Date();
     futureAppointment2.setDate(today.getDate() + 10);
     const futureAppointmentForChen = await Appointment.create({
@@ -90,7 +89,7 @@ export const seedTestData = async (req, res) => {
       duration: "30 days",
     });
 
-    // 4. Create Treatment Plans for both patients
+    // 4. Create Treatment Plans for BOTH patients
     await TreatmentPlan.create({
       patient: patient1.id,
       doctor: doctorId,
