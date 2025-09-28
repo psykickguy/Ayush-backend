@@ -1,35 +1,48 @@
 import mongoose from "mongoose";
 
+const documentSchema = new mongoose.Schema({
+  url: { type: String, required: true },
+  cloudinaryId: { type: String, required: true },
+  name: { type: String },
+  size: { type: Number },
+});
+
 const enrollmentSchema = new mongoose.Schema(
   {
-    patient: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Patient",
-      required: true,
+    hospitalName: { type: String, required: true, trim: true },
+    facilityType: { type: String, required: true },
+    address: {
+      street: String,
+      city: String,
+      state: String,
+      zip: String,
+      country: String,
     },
-    service: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Service",
-      required: true,
+    location: {
+        type: {
+            type: String,
+            enum: ['Point'],
+            default: 'Point'
+        },
+        coordinates: {
+            type: [Number], // [longitude, latitude]
+        }
     },
-    enrollmentDate: {
-      type: Date,
-      default: Date.now,
-    },
+    contactEmail: { type: String },
+    contactPhone: { type: String },
+    registrationNumber: { type: String },
+    documents: [documentSchema], // Array to store multiple documents
     status: {
       type: String,
-      enum: ["active", "completed", "cancelled"],
-      default: "active",
-    },
-    imageUrl: {
-      type: String,
-    },
-    cloudinaryId: {
-      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "pending",
     },
   },
   { timestamps: true }
 );
+
+// Optional: for geospatial queries
+enrollmentSchema.index({ location: '2dsphere' });
 
 const Enrollment = mongoose.model("Enrollment", enrollmentSchema);
 export default Enrollment;
