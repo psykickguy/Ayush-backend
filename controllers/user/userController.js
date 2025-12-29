@@ -1,4 +1,5 @@
 import User from "../../models/user.js";
+import bcrypt from "bcryptjs"; // <-- Import bcrypt
 import bcrypt from "bcryptjs";
 
 // Get all users
@@ -7,7 +8,6 @@ export const getUsers = async (req, res) => {
   res.json(users);
 };
 
-// Add new user
 export const addUser = async (req, res) => {
   try {
     const { name, email, password, role, specialty } = req.body;
@@ -39,9 +39,14 @@ export const addUser = async (req, res) => {
   }
 };
 
-// Update user
 export const updateUser = async (req, res) => {
   try {
+    // Hash the password if it is being updated
+    if (req.body.password) {
+      const salt = await bcrypt.genSalt(10);
+      req.body.password = await bcrypt.hash(req.body.password, salt);
+    }
+
     const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
@@ -50,6 +55,7 @@ export const updateUser = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
 
 // Delete user
 export const deleteUser = async (req, res) => {
