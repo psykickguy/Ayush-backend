@@ -16,6 +16,10 @@ import { startScheduledJobs } from "./utils/scheduler.js";
 import appointmentDocRoutes from "./routes/doctor/appointmentRoutes.js";
 import treatmentPlanRoutes from "./routes/doctor/treatmentPlanRoutes.js";
 import sharingRoutes from "./routes/doctor/sharingRoutes.js";
+//Patient ROutes
+import patientAuthRoutes from "./routes/patient/authRoutes.js"; // <--- Import this
+import patientHospitalRoutes from "./routes/patient/hospitalRoutes.js"; // <--- Add this  
+import patientAppointmentRoutes from "./routes/patient/appointmentRoutes.js"; // <--- Add this
 
 import enrollmentRoutes from "./routes/admin/enrollmentRoutes.js";
 import serviceRoutes from "./routes/admin/serviceRoutes.js";
@@ -40,6 +44,10 @@ app.use("/doctor/patients", patientRoutes);
 app.use("/doctor/appointments", appointmentDocRoutes);
 app.use("/doctor/treatment-plans", treatmentPlanRoutes);
 app.use("/doctor/sharing", sharingRoutes);
+// Routes
+app.use("/auth/patient", patientAuthRoutes); // <--- Add this line
+app.use("/patient/hospitals", patientHospitalRoutes); // <--- Add this
+app.use("/patient/appointments", patientAppointmentRoutes); // <--- Add this
 
 const connectDB = async () => {
   try {

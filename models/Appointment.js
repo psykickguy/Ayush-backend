@@ -12,6 +12,12 @@ const appointmentSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+// --- ADD THIS FIELD ---
+    branch: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Branch", // This matches the model name in Branch.js
+      required: true, // Set to true if every appointment must have a location
+    },
     date: { type: Date, required: true },
     time: { type: String, required: true },
     status: {
@@ -19,17 +25,12 @@ const appointmentSchema = new mongoose.Schema(
       enum: ["pending", "confirmed", "completed", "cancelled"],
       default: "pending",
     },
-    type: { type: String, required: true }, // e.g., Consultation, Follow-up
-
-    // --- NEW FIELDS ADDED TO SUPPORT DOCTOR UI ---
-    duration: {
-      type: Number, // Represents length in minutes
-      required: true,
-    },
-    notes: {
-      type: String, // For clinical or administrative notes
-    },
-    // ------------------------------------------
+    type: { type: String, required: true },
+    duration: { type: Number, required: true },
+    notes: { type: String },
+    
+    // NEW: App allows users to input symptoms
+    symptoms: [{ type: String }],
   },
   { timestamps: true }
 );

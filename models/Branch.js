@@ -15,6 +15,14 @@ const branchSchema = new mongoose.Schema(
       open: { type: String, default: "09:00" },
       close: { type: String, default: "18:00" },
     },
+
+    // --- NEW FIELDS FOR MOBILE APP ---
+    specialties: [{ type: String }], // e.g., ["Panchakarma", "Yoga"]
+    rating: { type: Number, default: 4.5 }, // Default rating
+    images: [{ type: String }], // Array of image URLs
+    // --------------------------------
+
+    
     holidaySchedule: [{ type: Date }],
     staffCount: { type: Number, default: 0 },
     maxDailyAppointments: { type: Number, default: 100 },

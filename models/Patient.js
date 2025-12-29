@@ -22,6 +22,12 @@ const patientSchema = new mongoose.Schema(
       default: "Active",
     },
 
+    // LINK TO LOGIN ACCOUNT
+    user: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "User" 
+    },
+
     // --- NEW FIELDS FOR DETAILED PROFILE ---
     photoUrl: {
       type: String,

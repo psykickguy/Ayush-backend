@@ -5,11 +5,12 @@ import Patient from "../../models/Patient.js";
 // @route   POST /api/doctor/appointments
 export const createAppointment = async (req, res) => {
   try {
-    const { patient, date, time, type, duration, notes } = req.body;
+    const { patient, date, time, type, duration, notes, branch } = req.body;
 
     const newAppointment = await Appointment.create({
       doctor: req.user.id,
       patient,
+      branch,
       date,
       time,
       type,
